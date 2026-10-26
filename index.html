@@ -14,7 +14,7 @@
   --sans:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   color-scheme:dark;
 }
-html{height:100%;box-sizing:border-box;background:var(--bg)}
+html{height:100%;box-sizing:border-box;background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *,*::before,*::after{box-sizing:inherit}
 body{height:100%;background:var(--bg);color:var(--fg);font-family:var(--display);overflow:hidden;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit}
@@ -208,14 +208,14 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 .arrow{appearance:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(10,12,16,.6);cursor:pointer;display:grid;place-items:center;color:#fff}
 .arrow svg{width:20px;height:20px}
 .arrow:disabled{opacity:.25;cursor:default}
-.wcard{position:relative;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-radius:10px;
+.wcard{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:12px;row-gap:4px;align-items:center;padding:12px 14px;border-radius:10px;
   background:rgba(14,16,22,.84);border:1px solid rgba(255,214,10,.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);min-height:76px}
-.wcard .wi{width:52px;height:38px;color:var(--yellow)}
-.wn{font:700 10px var(--mono);letter-spacing:.16em;color:var(--yellow)}
+.wcard .wi{width:48px;height:36px;color:var(--yellow);grid-row:1 / span 2}
+.wn{font:700 10px var(--mono);letter-spacing:.16em;color:var(--yellow);white-space:nowrap}
 .wt{font-weight:900;font-size:clamp(16px,5vw,20px);text-transform:uppercase;line-height:1.05;margin-top:2px}
 .wl{font:12px var(--sans);color:#aab0be;margin-top:2px}
-.ws{font:700 12px var(--mono);color:#e3e6ec;white-space:nowrap;text-align:right}
-.ws small{display:block;font-weight:500;color:var(--muted);margin-top:2px}
+.ws{grid-column:2;font:700 12px var(--mono);color:#e3e6ec;white-space:nowrap}
+.ws small{display:inline;font-weight:500;color:var(--muted);margin-left:10px}
 .wcard.locked{filter:grayscale(1);border-color:var(--line)}
 .wcard.locked>*:not(.wlock){opacity:.28}
 .wlock{position:absolute;inset:0;display:none;place-items:center;align-content:center;gap:4px;text-align:center;padding:8px 12px}
@@ -266,10 +266,26 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 .finger.tap{animation:tap .35s}
 @keyframes tap{50%{transform:scale(.72);background:rgba(255,255,255,.35)}}
 .tut-hl{outline:3px solid var(--yellow)!important;outline-offset:2px}
-.panel-in,.topbar,.hud,.goal,.pop,.sheet-in,.win-card,.menu-top,.menu-bot,.mcard,.tut-cap,.toast{zoom:var(--ui,1)}
+.panel-in,.topbar,.hud,.goal,.pop,.tchip,.sheet-in,.win-card,.menu-top,.menu-bot,.mcard,.tut-cap,.toast{zoom:var(--ui,1)}
 .hud{top:calc(54px * 1)}
 @media (max-height:640px){.layer{padding-block:5px}.folder{padding-block:6px 4px}}
 @media (prefers-reduced-motion:reduce){.cue,.jump,.name::after,.cue-name i,.finger{transition:none}.win-card,.layer.flash,.layer.hintme,.finger.tap{animation:none}.mt em::after{animation:none;transform:scaleX(1)}}
+html,body{overflow:hidden}
+.tchip{position:absolute;top:84px;left:max(12px,env(safe-area-inset-left,0px));z-index:3;appearance:none;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 13px;border-radius:999px;
+  border:1px solid rgba(255,214,10,.55);background:rgba(10,12,16,.74);color:#fff;font:700 11px var(--mono);letter-spacing:.08em;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.tchip b{color:var(--yellow);font-size:15px;font-weight:400}
+.tpop{left:max(12px,env(safe-area-inset-left,0px));right:auto;top:128px}
+.tpop::before{left:26px;right:auto}
+.tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tgrid button{appearance:none;border:1px solid var(--line);background:var(--row);color:var(--fg);border-radius:6px;padding:9px 4px;font:700 12px var(--mono);cursor:pointer}
+.tgrid button.on{background:var(--yellow);border-color:var(--yellow);color:#14161b}
+.langs{display:grid;gap:8px;margin-top:12px}
+.langs .wbtn.on{border-color:var(--yellow);color:var(--yellow)}
+.mrow3{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.mrow3 .wbtn{padding:12px 6px;font-size:14px}
+#recShare[hidden]+#recSave{grid-column:1/-1;background:var(--yellow);color:#14161b;border-color:var(--yellow)}
+.lnk{appearance:none;background:none;border:0;color:#aab0be;font:600 13px var(--sans);padding:12px 0 2px;cursor:pointer;width:100%}
+.mbtns .wbtn.sm3{padding:9px 8px;font-size:13px}
 </style>
 
 <div id="app" class="home">
@@ -283,12 +299,18 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
       <button class="ib" id="muteBtn" type="button" aria-label="Mute"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="w" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="x" d="M16 9l5 6M21 9l-5 6"/></svg></button>
       <button class="ib" id="resetBtn" type="button" aria-label="Reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></svg></button>
     </div>
-    <div class="hud ingame"><span><b id="hClock">T+ 00:00:00</b></span><span><b id="hTemp">15 °C</b></span><span>SEA <b id="hSea">+0.00 m</b></span></div>
+    <div class="hud ingame"><span><b id="hClock">T+ 00:00:00</b></span><span><b id="hTemp">15 °C</b></span><span><i id="seaLbl" style="font-style:normal">SEA</i> <b id="hSea">+0.00 m</b></span></div>
     <div class="goal ingame" id="goal" hidden>
       <div class="goal-k"><span id="goalNum">CHALLENGE 1/10</span><span id="goalLayers">0 layers</span></div>
       <div class="goal-t" id="goalTitle"></div>
       <div class="goal-d" id="goalDesc"></div>
       <div class="goal-w" id="goalWarn" hidden></div>
+    </div>
+    <button class="tchip ingame" id="timeChip" type="button" hidden><b aria-hidden="true">⏱</b><span id="timeChipLbl">TIME JUMP · AUTO</span></button>
+    <div class="pop tpop" id="timePop" hidden>
+      <div class="mk" id="timeK">TIME JUMP</div>
+      <p id="timeSub"></p>
+      <div class="tgrid" id="timeGrid"></div>
     </div>
     <div class="pop" id="hintPop" hidden>
       <div class="mk" id="hintK">HINT</div>
@@ -324,7 +346,7 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
     <div class="panel-in">
       <div class="panel-head">
         <span class="tab">Layers</span>
-        <span class="tool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6-9 9H5l-2-2 11-13z"/><path d="M9 9l6 6"/></svg>ERASER</span>
+        <span class="tool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M14 4l6 6-9 9H5l-2-2 11-13z"/><path d="M9 9l6 6"/></svg><span id="toolLbl">ERASER</span></span>
         <span class="meta" id="meta">EARTH</span>
       </div>
       <div class="layers" id="layers"></div>
@@ -353,11 +375,17 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
     <div class="mbtns">
       <button id="playBtn" class="wbtn" type="button">Challenges</button>
       <div class="row2"><button id="freeBtn" class="wbtn ghost" type="button">Free mode</button><button id="howBtn" class="wbtn ghost" type="button">How to play</button></div>
+      <div class="row2"><button id="langBtn" class="wbtn ghost sm3" type="button">🌐 English</button><button id="menuSnd" class="wbtn ghost sm3" type="button">Sound: on</button></div>
     </div>
-    <button id="menuSnd" class="msnd" type="button">Sound: on</button>
   </div>
 </div>
 
+<div class="modal" id="langModal" hidden>
+  <div class="mcard" role="dialog" aria-labelledby="langK">
+    <div class="mk" id="langK">LANGUAGE</div>
+    <div class="langs"><button class="wbtn ghost" type="button" data-lang="en">English</button><button class="wbtn ghost" type="button" data-lang="es">Español</button></div>
+  </div>
+</div>
 <div class="modal" id="infoModal" hidden>
   <div class="mcard bubble" role="dialog" aria-labelledby="infoTitle">
     <div class="mk">WHY IT HAPPENS</div>
@@ -370,14 +398,15 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
   <div class="mcard" role="dialog" aria-label="Your clip">
     <div class="mk">YOUR CLIP</div>
     <video id="recVideo" playsinline loop controls muted></video>
-    <div class="mrow"><button id="recSave" class="wbtn" type="button">Save video</button><button id="recDiscard" class="wbtn ghost" type="button">Discard</button></div>
+    <div class="mrow3"><button id="recShare" class="wbtn" type="button">Share / Save</button><button id="recSave" class="wbtn ghost" type="button">Download</button></div>
+    <button id="recDiscard" class="lnk" type="button">Discard</button>
     <p class="mnote" id="recNote"></p>
   </div>
 </div>
 <div class="tut" id="tut" hidden>
   <div class="tut-bar" id="tutBar"></div>
   <div class="tut-cap top" id="tutCap">
-    <div class="tut-k">HOW TO PLAY · <span id="tutN">1/10</span></div>
+    <div class="tut-k"><span id="tutK">HOW TO PLAY</span> · <span id="tutN">1/10</span></div>
     <p id="tutText"></p>
     <div class="tut-ctl">
       <button id="tutPrev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
@@ -396,8 +425,268 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 (function(){
 const $ = id => document.getElementById(id);
 /* scale the interface on phones that report a wide viewport (large display, small zoom or desktop mode) */
-function setUIScale(){ const w=window.innerWidth||400, h=window.innerHeight||800; const s = h > w*1.15 ? Math.min(2.6, Math.max(1, w/420)) : 1; document.documentElement.style.setProperty('--ui', s.toFixed(3)); }
+function setUIScale(){ const w=window.innerWidth||400, h=window.innerHeight||800; const s = h > w*1.15 ? Math.min(2.6, Math.max(0.6, w/412)) : 1; document.documentElement.style.setProperty('--ui', s.toFixed(3)); }
 setUIScale(); window.addEventListener('resize', setUIScale);
+
+/* ======================= LANGUAGES (English / Spanish) ======================= */
+let LANG = 'en';
+try{ LANG = localStorage.getItem('dtw-lang') || ((navigator.language||'').toLowerCase().startsWith('es') ? 'es' : 'en'); }catch(_){}
+if(LANG!=='es') LANG='en';
+const ES = () => LANG==='es';
+const STR = {
+  restored:['RESTORED','RESTAURADA'],
+  lockedLayer:['Complete more challenges to unlock this layer.','Completa más retos para desbloquear esta capa.'],
+  challengeN:[n=>`CHALLENGE ${n}`, n=>`RETO ${n}`],
+  sea:['SEA','MAR'], dry:['DRY','SECO'], yr:['y','a'],
+  hintK:['HINT','PISTA'], freeK:['FREE MODE','MODO LIBRE'], showAns:['Show answer','Ver respuesta'],
+  freeHint:['Tap any layer to delete it and tap it again to restore it. Use the ⏱ button to choose how much time passes after each deletion: perfect for recording clips. Open the challenge list (☰) to play with goals and hints.',
+            'Toca cualquier capa para borrarla y tócala otra vez para restaurarla. Con el botón ⏱ eliges cuánto tiempo pasa después de cada borrado: ideal para grabar clips. Abre la lista de retos (☰) para jugar con objetivos y pistas.'],
+  challenges:['Challenges','Retos'], close:['CLOSE','CERRAR'],
+  sheetSub:['Reach each goal by deleting layers. The fewer layers you use, the more stars you get.','Consigue cada objetivo borrando capas. Cuantas menos uses, más estrellas.'],
+  winK:['CHALLENGE COMPLETE','RETO SUPERADO'], why:['WHY?','¿POR QUÉ?'], keep:['Keep playing','Seguir jugando'],
+  next:['Next challenge','Siguiente reto'], goTo:[n=>`Go to ${n}`, n=>`Ir a ${n}`], seeAll:['See all challenges','Ver todos los retos'],
+  withN:[n=>`With ${n} ${n===1?'layer':'layers'} deleted`, n=>`Con ${n} ${n===1?'capa borrada':'capas borradas'}`],
+  canPar:[p=>` · Can be done with ${p}`, p=>` · Se puede con ${p}`],
+  newLayers:['New layers: ','Nuevas capas: '], newWorld:[n=>`New world unlocked: ${n}`, n=>`Nuevo mundo desbloqueado: ${n}`],
+  layersN:[n=>`${n} ${n===1?'layer':'layers'}`, n=>`${n} ${n===1?'capa':'capas'}`],
+  cantDelete:[l=>`You can’t delete ${l}`, l=>`No puedes borrar ${l}`],
+  maxN:[n=>`Max ${n} ${n===1?'layer':'layers'}`, n=>`Máx. ${n} ${n===1?'capa':'capas'}`],
+  limitN:[n=>`You have ${n} seconds from your first deletion`, n=>`Tienes ${n} segundos desde tu primer borrado`],
+  warnBad:[l=>`You can’t delete ${l}. Restore it to continue.`, l=>`No puedes borrar ${l}. Restáurala para seguir.`],
+  warnMax:[n=>`Max ${n} ${n===1?'layer':'layers'}. Restore one.`, n=>`Máx. ${n} ${n===1?'capa':'capas'}. Restaura alguna.`],
+  left:[s=>`${s} s left`, s=>`Quedan ${s} s`], timeUp:['Time’s up. Tap reset to try again.','Se acabó el tiempo. Pulsa reiniciar para intentarlo otra vez.'],
+  guide1:['Tap GRAVITY in the panel below.','Toca GRAVEDAD en el panel de abajo.'],
+  guide2:['Nice! Now watch the boats in the bay…','¡Bien! Ahora mira los barcos de la bahía…'],
+  lockedScene:[(n,a,w)=>`Complete ${n} challenges in ${a} to unlock ${w}.`, (n,a,w)=>`Completa ${n} retos en ${a} para desbloquear ${w}.`],
+  locked:['LOCKED','BLOQUEADO'], lockedBtn:['Locked','Bloqueado'],
+  world:[n=>`WORLD ${n}`, n=>`MUNDO ${n}`],
+  wLayers:[(l,c)=>`${l} layers · ${c} challenges`, (l,c)=>`${l} capas · ${c} retos`],
+  done:[(d,n)=>`${d}/${n} done`, (d,n)=>`${d}/${n} hechos`],
+  wLock:[(n,a)=>`Complete ${n} challenges in ${a} to unlock`, (n,a)=>`Completa ${n} retos en ${a} para desbloquear`],
+  play:['Play challenges','Jugar retos'], cont:['Continue challenges','Continuar retos'], see:['See challenges','Ver retos'],
+  free:['Free mode','Modo libre'], how:['How to play','Cómo jugar'], langBtn:['🌐 English','🌐 Español'],
+  sndOn:['Sound: on','Sonido: sí'], sndOff:['Sound: off','Sonido: no'],
+  kick:['A GAME WHERE YOU CAN DELETE ANYTHING','UN JUEGO DONDE PUEDES BORRAR CUALQUIER COSA'],
+  layers:['Layers','Capas'], eraser:['ERASER','BORRADOR'],
+  phint:['Tap a layer to delete it. Tap it again to restore it.','Toca una capa para borrarla. Tócala otra vez para restaurarla.'],
+  infoK:['WHY IT HAPPENS','POR QUÉ PASA'], gotIt:['Got it','Entendido'],
+  recK:['YOUR CLIP','TU CLIP'], share:['Share / Save','Compartir / Guardar'], download:['Download','Descargar'], discard:['Discard','Descartar'],
+  recUnsupported:['Recording isn’t supported in this browser. Use your phone’s screen recorder instead.','Este navegador no permite grabar. Usa la grabación de pantalla del móvil.'],
+  recFail:['Could not start recording. Try again, or use your phone’s screen recorder.','No se pudo empezar a grabar. Inténtalo otra vez o usa la grabación de pantalla del móvil.'],
+  recEmpty:['The clip came out empty. Tap REC again: it will try another video format.','El clip ha salido vacío. Pulsa REC otra vez: probará otro formato de vídeo.'],
+  recMax:['Clips stop automatically after 60 seconds.','Los clips se paran solos a los 60 segundos.'],
+  saved:['Saved. Find it in your downloads.','Guardado. Lo tienes en tus descargas.'],
+  notSaved:['Not saved. Tap a button to try again.','No se ha guardado. Pulsa un botón para intentarlo otra vez.'],
+  busy:['Another save is already open. Try again in a moment.','Ya hay otro guardado abierto. Inténtalo en un momento.'],
+  tooLong:['This clip is too long to save here. Record a shorter one.','Este clip es demasiado largo para guardarlo aquí. Graba uno más corto.'],
+  dlHint:['If nothing happened, tap Share / Save and choose Files, Drive, Instagram or TikTok.','Si no ha pasado nada, pulsa Compartir / Guardar y elige Archivos, Drive, Instagram o TikTok.'],
+  shared:['Done!','¡Hecho!'],
+  tutK:['HOW TO PLAY','CÓMO JUGAR'], tutClose:['Close','Cerrar'],
+  timeK:['TIME JUMP','SALTO DE TIEMPO'], timeSub:['How much time passes after each deletion. Auto uses the natural time for each layer.','Cuánto tiempo pasa después de cada borrado. Auto usa el tiempo natural de cada capa.'],
+  langK:['LANGUAGE','IDIOMA'], recTitle:['CHALLENGE','RETO'],
+  mute:['Mute','Silenciar'], unmute:['Turn sound on','Activar sonido'], whyAria:['Why it happens','Por qué pasa'],
+};
+const T_ = (k, ...a) => { const v = STR[k][ES()?1:0]; return typeof v === 'function' ? v(...a) : v; };
+const GROUP_ES = {PHYSICS:'FÍSICA', PLANET:'PLANETA', DESERT:'DESIERTO', CITY:'CIUDAD', LIFE:'VIDA'};
+const META = {city:['COASTAL CITY','CIUDAD COSTERA'], paris:['PARIS','PARÍS'], desert:['GIZA','GIZA']};
+const LAYER_ES = {
+  gravity:['GRAVEDAD','9,81 m/s²','0,00 m/s²',['3','SEGUNDOS DESPUÉS']],
+  friction:['FRICCIÓN','μ 0,70','μ 0,00',['1','SEGUNDO DESPUÉS']],
+  time:['TIEMPO','1 s/s','0 s/s',['0','SEGUNDOS DESPUÉS']],
+  distance:['DISTANCIA','1 m = 1 m','0 m',['1','SEGUNDO DESPUÉS']],
+  rotation:['ROTACIÓN','1.674 km/h','0 km/h',['10','SEGUNDOS DESPUÉS']],
+  em:['ELECTROMAGNETISMO','α 1/137','α 0',['1','NANOSEGUNDO DESPUÉS']],
+  magnetism:['CAMPO MAGNÉTICO','50 μT','0 μT',['1M','AÑOS DESPUÉS']],
+  sun:['SOL','2·10³⁰ kg','0 kg',['8','MINUTOS DESPUÉS'],['1','SEMANA DESPUÉS']],
+  light:['LUZ','100.000 lx','0 lx',['1','SEMANA DESPUÉS']],
+  moon:['LUNA','7,35·10²² kg','0 kg',['12','HORAS DESPUÉS']],
+  air:['AIRE','1013 hPa','0 hPa',['10','SEGUNDOS DESPUÉS']],
+  oxygen:['OXÍGENO','21 %','0 %',['1','SEGUNDO DESPUÉS']],
+  wind:['VIENTO','15 km/h','0 km/h',['1','SEMANA DESPUÉS']],
+  water:['AGUA','1,4·10⁹ km³','0 km³',['1','MES DESPUÉS']],
+  ice:['HIELO','H₂O sólida','derretido',['300','AÑOS DESPUÉS']],
+  clouds:['NUBES','67 %','0 %',['2','AÑOS DESPUÉS']],
+  ground:['SUELO','6·10²⁴ kg','0 kg',['5','SEGUNDOS DESPUÉS']],
+  heat:['CALOR','288 K','0 K',['1','MINUTO DESPUÉS']],
+  sand:['ARENA','9·10¹⁷ kg','0 kg',['1','SEGUNDO DESPUÉS']],
+  stone:['PIEDRA','2,3 M bloques','0 bloques',['1','SEGUNDO DESPUÉS']],
+  concrete:['HORMIGÓN','3·10¹¹ t','0 t',['1','SEGUNDO DESPUÉS']],
+  metal:['METAL','Fe · Al · Cu','0 kg',['1','SEGUNDO DESPUÉS']],
+  electricity:['ELECTRICIDAD','230 V','0 V',['3','DÍAS DESPUÉS']],
+  color:['COLOR','100 %','0 %',null],
+  people:['PERSONAS','8.100 M','0',['100','AÑOS DESPUÉS']],
+  birds:['AVES','5·10¹⁰','0',['5','AÑOS DESPUÉS']],
+  plants:['PLANTAS','3·10¹² árboles','0',['1','MES DESPUÉS']],
+  animals:['ANIMALES','camellos: 9','0',['10','AÑOS DESPUÉS']],
+};
+/* free-mode time jump choices: [seconds, number, unit EN, unit ES, short EN, short ES] */
+const TIME_OPTS = [
+  [0,'','','','Auto','Auto'],
+  [1,'1','SECOND LATER','SEGUNDO DESPUÉS','1 s','1 s'],
+  [10,'10','SECONDS LATER','SEGUNDOS DESPUÉS','10 s','10 s'],
+  [60,'1','MINUTE LATER','MINUTO DESPUÉS','1 min','1 min'],
+  [3600,'1','HOUR LATER','HORA DESPUÉS','1 hour','1 hora'],
+  [86400,'1','DAY LATER','DÍA DESPUÉS','1 day','1 día'],
+  [604800,'1','WEEK LATER','SEMANA DESPUÉS','1 week','1 semana'],
+  [2592000,'1','MONTH LATER','MES DESPUÉS','1 month','1 mes'],
+  [31557600,'1','YEAR LATER','AÑO DESPUÉS','1 year','1 año'],
+  [315576000,'10','YEARS LATER','AÑOS DESPUÉS','10 years','10 años'],
+  [3155760000,'100','YEARS LATER','AÑOS DESPUÉS','100 years','100 años'],
+  [31557600000,'1,000','YEARS LATER','AÑOS DESPUÉS','1,000 years','1.000 años'],
+  [31557600000000,'1M','YEARS LATER','AÑOS DESPUÉS','1M years','1 M años'],
+];
+let timeSel = 0;
+try{ timeSel = Math.max(0, Math.min(TIME_OPTS.length-1, +localStorage.getItem('dtw-time')||0)); }catch(_){}
+
+/* ---------- challenge texts in Spanish + one explanation per layer that can solve it ---------- */
+const W = {
+  gravity:['Gravity is the pull that gives everything weight. Without it, boats, cars and people float away with the slightest push, and nothing ever comes back down.',
+           'La gravedad es la fuerza que da peso a las cosas. Sin ella, barcos, coches y personas salen flotando con el menor empujón y nada vuelve a bajar.'],
+  carsGravity:['Without gravity the cars weigh nothing, so the slightest bump sends them floating up and away from the street.',
+               'Sin gravedad los coches no pesan nada, así que el más mínimo golpe los hace subir flotando lejos de la calle.'],
+  carsGround:['Without the ground there is nothing holding the cars up, so they fall away together with the whole city.',
+              'Sin suelo no hay nada que sostenga los coches, así que caen junto con toda la ciudad.'],
+  carsEm:['The electromagnetic force holds atoms together. Without it the cars, and everything else, fall apart into dust.',
+          'La fuerza electromagnética mantiene unidos los átomos. Sin ella, los coches (y todo lo demás) se deshacen en polvo.'],
+  em:['The electromagnetic force holds electrons around atoms and atoms together in molecules. Without it, all matter falls apart into a cloud of loose particles.',
+      'La fuerza electromagnética mantiene los electrones alrededor de los átomos y une los átomos en moléculas. Sin ella, toda la materia se deshace en una nube de partículas sueltas.'],
+  rotationCity:['Earth spins at up to 1,674 km/h at the equator, and everything on the surface moves with it. Stop the rotation suddenly and everything keeps going at that speed, flying off sideways.',
+                'La Tierra gira a hasta 1.674 km/h en el ecuador y todo lo que hay en la superficie se mueve con ella. Si la rotación se para de golpe, todo sigue a esa velocidad y sale disparado de lado.'],
+  rotationParis:['Because Earth spins, Paris moves east at about 1,100 km/h. Stop the planet and everything on the surface keeps going at that speed.',
+                 'Como la Tierra gira, París se mueve hacia el este a unos 1.100 km/h. Si el planeta se para, todo lo que hay en la superficie sigue a esa velocidad.'],
+  oxygenPeople:['Our brain needs a constant supply of oxygen. Without it, people pass out within seconds, even with air all around them.',
+                'El cerebro necesita oxígeno sin parar. Sin él, las personas se desmayan en pocos segundos, aunque haya aire alrededor.'],
+  airPeople:['With no air there is nothing to breathe and no pressure on the body: people pass out within seconds.',
+             'Sin aire no hay nada que respirar ni presión sobre el cuerpo: las personas se desmayan en pocos segundos.'],
+  oxygenWater:['Water is H₂O: two hydrogen atoms and one oxygen atom. Without oxygen, water can’t exist, so it simply disappears (and so does breathable air).',
+               'El agua es H₂O: dos átomos de hidrógeno y uno de oxígeno. Sin oxígeno el agua no puede existir, así que desaparece (y el aire respirable también).'],
+  heat:['Heat is the motion of atoms. At absolute zero (−273 °C) that motion stops, and water, and even the air, freezes solid.',
+        'El calor es el movimiento de los átomos. En el cero absoluto (−273 °C) ese movimiento se para, y el agua (y hasta el aire) se congela.'],
+  light:['Nearly all of Earth’s energy arrives as sunlight. Without it the surface loses its heat to space, and after one week of darkness the whole planet is below freezing.',
+         'Casi toda la energía de la Tierra llega como luz del Sol. Sin ella, la superficie pierde su calor hacia el espacio y, tras una semana a oscuras, todo el planeta está bajo cero.'],
+  sunCold:['Without the Sun, Earth cools fast: about −17 °C after a week and −73 °C after a year. Rivers and lakes freeze over, while the deep oceans stay liquid under the ice for a long time.',
+           'Sin el Sol, la Tierra se enfría rápido: unos −17 °C en una semana y −73 °C en un año. Ríos y lagos se congelan, aunque el fondo de los océanos sigue líquido bajo el hielo mucho tiempo.'],
+  sunDark:['Sunlight takes about 8 minutes and 20 seconds to reach Earth. If the Sun vanished, nothing would change for those 8 minutes. Then: total darkness.',
+           'La luz del Sol tarda unos 8 minutos y 20 segundos en llegar a la Tierra. Si el Sol desapareciera, durante esos 8 minutos no cambiaría nada. Después: oscuridad total.'],
+  people:['Without people, nobody maintains anything. Roots crack the asphalt within years and after a century trees cover the streets. You can see it today in Pripyat, the town abandoned after Chernobyl.',
+          'Sin personas nadie mantiene nada. Las raíces rompen el asfalto en pocos años y en un siglo los árboles cubren las calles. Hoy puede verse en Prípiat, la ciudad abandonada tras Chernóbil.'],
+};
+const RETO_I18N = {
+  'city-0':{es:['Barcos voladores','Haz que todos los barcos se eleven del agua.','¿Qué mantiene todo pegado al suelo?','Borra la GRAVEDAD.'], whys:{gravity:W.gravity}},
+  'city-1':{es:['Ciudad sumergida','Inunda la calle.','La Antártida y Groenlandia están cubiertas de algo que podría subir el mar…','Borra el HIELO.'],
+    whys:{ice:['Antarctica and Greenland hold about 26 million km³ of ice. If it all melted, the sea would rise around 70 m and coastal cities would end up underwater. In real life that would take centuries.',
+               'La Antártida y Groenlandia guardan unos 26 millones de km³ de hielo. Si se derritiera todo, el mar subiría unos 70 m y las ciudades de costa quedarían bajo el agua. En la realidad tardaría siglos.']}},
+  'city-2':{es:['Calle despejada','Que no quede ni un coche en la calle.','Algo impide que los coches aparcados se deslicen por esta cuesta tan empinada.','Borra la FRICCIÓN (la ROTACIÓN también vale).'],
+    whys:{friction:['Friction is the grip between tyres and asphalt. On a 13° slope without it, every car slides downhill as if the street were made of ice.',
+                    'La fricción es el agarre entre las ruedas y el asfalto. En una cuesta de 13° sin ella, todos los coches se deslizan calle abajo como si fuera hielo.'],
+          rotation:W.rotationCity, gravity:W.carsGravity, ground:W.carsGround, em:W.carsEm},
+    why:['The cars left the street: whatever was holding them in place is gone.','Los coches han salido de la calle: lo que los mantenía en su sitio ya no está.']},
+  'city-3':{es:['Selva urbana','Convierte la ciudad en un bosque.','¿Quién corta el césped y arregla las calles?','Borra a las PERSONAS.'], whys:{people:W.people}},
+  'city-4':{es:['Invierno eterno','Cubre la ciudad de nieve o escarcha.','¿De dónde sale casi todo el calor de la Tierra?','Borra la LUZ (el CALOR también vale).'],
+    whys:{light:W.light, heat:['Heat is the motion of atoms. At absolute zero (−273 °C) that motion stops and everything is instantly covered in frost: even the air freezes.',
+                               'El calor es el movimiento de los átomos. En el cero absoluto (−273 °C) ese movimiento se para y todo se cubre de escarcha al instante: hasta el aire se congela.']},
+    why:['The city froze: without a source of warmth, the planet loses its heat to space.','La ciudad se ha congelado: sin una fuente de calor, el planeta pierde su calor hacia el espacio.']},
+  'city-5':{es:['Mar hirviendo','Haz que hierva la bahía.','El agua hierve a 100 °C… pero solo a presión normal.','Borra el AIRE.'],
+    whys:{air:['The boiling point depends on pressure. The air above us presses on the water and keeps it liquid. With no air pressure, water boils even when it’s cold, just like in space.',
+               'El punto de ebullición depende de la presión. El aire de encima presiona el agua y la mantiene líquida. Sin presión, el agua hierve aunque esté fría, como en el espacio.']}},
+  'city-6':{es:['Todos al suelo','Que toda la gente acabe en el suelo.','¿Qué necesitan las personas cada pocos segundos? O: ¿y si el planeta dejara de girar?','Borra el AIRE, el OXÍGENO o la ROTACIÓN.'],
+    whys:{oxygen:W.oxygenPeople, air:W.airPeople, rotation:['If Earth stopped rotating, everything on the surface would keep moving east at up to 1,674 km/h, knocking everyone off their feet.',
+                                                             'Si la Tierra dejara de girar, todo lo que hay en la superficie seguiría moviéndose hacia el este a hasta 1.674 km/h y todo el mundo saldría por los aires.']},
+    why:['Everyone collapsed: people need air to breathe and solid footing to stay upright.','Todo el mundo ha caído: las personas necesitan aire para respirar y algo firme para sostenerse.']},
+  'city-7':{es:['Paseo por el fondo','Deja los barcos varados en el fondo seco.','¿Qué llena la bahía y de qué está hecho?','Borra el AGUA (el OXÍGENO también vale).'],
+    whys:{water:['Delete the water and the bay drains completely, leaving the boats lying on the seabed.','Si borras el agua, la bahía se vacía del todo y los barcos quedan tirados en el fondo.'],
+          oxygen:W.oxygenWater},
+    why:['The bay is empty: without water, the boats rest on the seabed.','La bahía está vacía: sin agua, los barcos quedan apoyados en el fondo.']},
+  'city-8':{es:['Demolición','Derriba todos los edificios.','¿De qué están hechos los edificios?','Borra el HORMIGÓN (el OXÍGENO también vale).'],
+    whys:{concrete:['Concrete is sand, gravel and cement, and it holds up almost every modern building. Delete it and they collapse into rubble.',
+                    'El hormigón es arena, grava y cemento, y sostiene casi todos los edificios modernos. Si lo borras, se derrumban.'],
+          oxygen:['About half of the weight of concrete and rock is oxygen locked inside minerals. Without oxygen, buildings crumble.',
+                  'Casi la mitad del peso del hormigón y de las rocas es oxígeno atrapado en minerales. Sin oxígeno, los edificios se desmoronan.']},
+    why:['The buildings collapsed: the material holding them up is gone.','Los edificios se han derrumbado: el material que los sostenía ya no está.']},
+  'city-9':{es:['Nada','Haz desaparecer absolutamente todo.','¿Qué fuerza mantiene unidos los átomos?','Borra el ELECTROMAGNETISMO.'], whys:{em:W.em}},
+
+  'paris-0':{es:['Adiós, torre','Haz desaparecer la Torre Eiffel.','¿De qué está hecha la torre?','Borra el METAL.'],
+    whys:{metal:['The Eiffel Tower is about 7,300 tonnes of wrought iron held together by 2.5 million rivets. Delete metal and it vanishes, along with the cars and lamp posts.',
+                 'La Torre Eiffel son unas 7.300 toneladas de hierro forjado unidas con 2,5 millones de remaches. Sin metal desaparece, junto con los coches y las farolas.']}},
+  'paris-1':{es:['París por los suelos','Que toda la gente acabe en el suelo.','Algo del aire que respiramos… o el giro del planeta.','Borra el OXÍGENO o la ROTACIÓN.'],
+    whys:{oxygen:W.oxygenPeople, rotation:W.rotationParis}, why:['Everyone collapsed: people need air to breathe and solid footing to stay upright.','Todo el mundo ha caído: las personas necesitan aire para respirar y algo firme para sostenerse.']},
+  'paris-2':{es:['El Sena seco','Deja el río sin agua.','¿De qué está hecha el agua?','Borra el OXÍGENO.'], whys:{oxygen:W.oxygenWater}},
+  'paris-3':{es:['Selva parisina','Convierte la avenida en un bosque.','¿Quién mantiene la ciudad limpia cada día?','Borra a las PERSONAS.'],
+    whys:{people:['Paris without Parisians: within 100 years ivy, grass and trees take over the boulevards, and roofs start to collapse as nobody repairs them.',
+                  'París sin parisinos: en 100 años la hiedra, la hierba y los árboles invaden los bulevares, y los tejados empiezan a hundirse porque nadie los repara.']}},
+  'paris-4':{es:['Atrapados en el hielo','Congela los barcos en el río.','La temperatura es solo átomos moviéndose. Si los paras…','Borra el CALOR.'], whys:{heat:W.heat}},
+  'paris-5':{es:['Niebla tóxica','Cubre París de contaminación.','¿Qué suele llevarse el humo?','Borra el VIENTO.'],
+    whys:{wind:['Wind carries exhaust and smoke away from cities. On still days pollution piles up, which is why Paris sometimes issues smog alerts in winter.',
+                'El viento se lleva el humo de los coches y las chimeneas. Los días sin viento la contaminación se acumula; por eso París a veces activa alertas por contaminación en invierno.']}},
+  'paris-6':{es:['Selva nevada','Bosque y nieve a la vez.','Combina dos capas: una para el bosque y otra para el frío.','Borra a las PERSONAS y la LUZ (o el CALOR).'],
+    whys:{people:['Without people, nature takes over the city within a century.','Sin personas, la naturaleza invade la ciudad en un siglo.'],
+          light:['Without sunlight, the planet freezes and snow covers everything.','Sin luz del Sol, el planeta se congela y la nieve lo cubre todo.'],
+          heat:['At absolute zero, everything is instantly covered in frost.','En el cero absoluto, todo se cubre de escarcha al instante.']}},
+  'paris-7':{es:['Contrarreloj','Despeja la avenida de coches.','La avenida es plana, así que la fricción no ayuda mucho. Piensa en grande, y rápido.','Borra la ROTACIÓN.'],
+    whys:{rotation:W.rotationParis, gravity:W.carsGravity, ground:W.carsGround, em:W.carsEm,
+          friction:['Without friction, cars can’t brake or grip the road: the moving cars keep sliding at full speed straight off the end of the avenue.',
+                    'Sin fricción los coches no pueden frenar ni agarrarse al asfalto: los que circulan siguen deslizándose a toda velocidad hasta salir de la avenida.']},
+    why:['The cars left the avenue: whatever was holding them in place is gone.','Los coches han salido de la avenida: lo que los mantenía en su sitio ya no está.']},
+  'paris-8':{es:['Rompehielos volador','Barcos en el aire y el río congelado.','Congela primero el río y luego quita el peso a todo.','Borra el CALOR y la GRAVEDAD.'],
+    whys:{heat:['At absolute zero the river freezes solid.','En el cero absoluto el río se congela por completo.'],
+          gravity:['Without gravity nothing holds the boats down, so they drift up off the ice.','Sin gravedad nada sujeta los barcos, así que se elevan por encima del hielo.']}},
+  'paris-9':{es:['Apocalipsis','París bajo el agua, a oscuras y convertido en selva.','Tres capas: una para la inundación, otra para la oscuridad y otra para la selva.','Borra el HIELO, la LUZ y a las PERSONAS.'],
+    whys:{ice:['Melted ice raises the sea about 70 m, and central Paris is only about 35 m above sea level.','El hielo derretido sube el mar unos 70 m, y el centro de París está solo a unos 35 m sobre el nivel del mar.'],
+          light:['No sunlight means endless night.','Sin luz del Sol, la noche no termina nunca.'],
+          people:['Without people, the city goes wild.','Sin personas, la ciudad se vuelve salvaje.']}},
+
+  'desert-0':{es:['Roca desnuda','Convierte el desierto en roca desnuda.','¿De qué está hecho un desierto?','Borra la ARENA.'],
+    whys:{sand:['Sand is rock ground down by wind and water over millions of years. Under the Sahara’s dunes lies solid limestone, the same rock the pyramids are built from.',
+                'La arena es roca triturada por el viento y el agua durante millones de años. Bajo las dunas del Sáhara hay roca caliza, la misma de las pirámides.']}},
+  'desert-1':{es:['Maravillas perdidas','Haz desaparecer las pirámides.','¿De qué están hechas las pirámides?','Borra la PIEDRA.'],
+    whys:{stone:['The Great Pyramid is made of about 2.3 million limestone and granite blocks, some weighing 80 tonnes. Without stone, 4,500 years of history vanish at once.',
+                 'La Gran Pirámide tiene unos 2,3 millones de bloques de caliza y granito, algunos de 80 toneladas. Sin piedra desaparecen de golpe 4.500 años de historia.']}},
+  'desert-2':{es:['Desierto solitario','Haz desaparecer todos los camellos. Las personas deben quedarse.','Los camellos pertenecen a un grupo propio.','Borra los ANIMALES.'],
+    whys:{animals:['Camels have carried people and goods across the Sahara for around 3,000 years. Without animals, caravans and many desert jobs would disappear.',
+                   'Los camellos llevan unos 3.000 años transportando personas y mercancías por el Sáhara. Sin animales desaparecerían las caravanas y muchos oficios del desierto.']}},
+  'desert-3':{es:['Ocho minutos','Haz que sea de noche a mediodía.','¿De dónde viene la luz? ¿Y cuánto tarda en llegar?','Borra el SOL.'], whys:{sun:W.sunDark}},
+  'desert-4':{es:['Mar de arena','Entierra el pueblo bajo la arena.','¿Quién barre la arena de las calles cada día?','Borra a las PERSONAS.'],
+    whys:{people:['Desert towns survive because people keep clearing the drifting sand. Without them, dunes swallow roads and houses within decades, as happened to many ancient desert cities.',
+                  'Los pueblos del desierto sobreviven porque la gente quita la arena que trae el viento. Sin ellos, las dunas se tragan calles y casas en pocas décadas, como pasó con muchas ciudades antiguas.']}},
+  'desert-5':{es:['Caravana hambrienta','Haz que los camellos caigan rendidos.','¿Qué comen los camellos?','Borra las PLANTAS.'],
+    whys:{plants:['Camels can go for weeks without water, but they still need to eat. Without plants every food chain on Earth collapses, starting with the plant-eaters.',
+                  'Los camellos aguantan semanas sin beber, pero necesitan comer. Sin plantas se hunde toda la cadena alimentaria, empezando por los herbívoros.']}},
+  'desert-6':{es:['Modo Marte','Convierte la Tierra en Marte: suelo rojo, aire fino y sin agua.','Marte perdió su escudo invisible hace miles de millones de años.','Borra el CAMPO MAGNÉTICO.'],
+    whys:{magnetism:['Earth’s magnetic field deflects the solar wind. Mars lost its field, and over millions of years the solar wind stripped away most of its air and water, leaving a cold red desert.',
+                     'El campo magnético de la Tierra desvía el viento solar. Marte perdió el suyo y, durante millones de años, el viento solar le arrancó casi todo el aire y el agua, dejándolo como un desierto rojo y frío.']}},
+  'desert-7':{es:['Nilo congelado','Congela el Nilo.','Algo mantiene caliente todo el planeta. Quítalo y espera…','Borra el SOL (y espera una semana).'], whys:{sun:W.sunCold}},
+  'desert-8':{es:['Faluchos voladores','Barcos en el aire sobre un Nilo congelado.','Congela el río sin usar el CALOR y luego quita lo que mantiene los barcos abajo.','Borra el SOL y la GRAVEDAD.'],
+    whys:{sun:['Without the Sun, the river freezes within a week.','Sin el Sol, el río se congela en una semana.'],
+          gravity:['Without gravity, the feluccas float off the ice.','Sin gravedad, los faluchos se elevan por encima del hielo.']}},
+  'desert-9':{es:['Eclipse total','Oscuridad, sin pirámides y sin suelo.','Tres cosas: la luz, los monumentos y el suelo.','Borra el SOL (o la LUZ), la PIEDRA y el SUELO.'],
+    whys:{sun:['No Sun: eight minutes later, total darkness.','Sin Sol: ocho minutos después, oscuridad total.'],
+          light:['No light: total darkness at noon.','Sin luz: oscuridad total a mediodía.'],
+          stone:['No stone: the pyramids and the Sphinx vanish.','Sin piedra: las pirámides y la Esfinge desaparecen.'],
+          ground:['No ground: nothing holds anything up, so everything falls.','Sin suelo: nada sostiene nada, así que todo cae.']}},
+};
+const SCENE_ES = {city:'Ciudad costera', paris:'París', desert:'Desierto de Giza'};
+function applyRetoI18n(RETOS){
+  for(const sid of Object.keys(RETOS)){
+    const R = RETOS[sid], nameEn = R.name;
+    Object.defineProperty(R, 'name', {get(){ return ES() ? SCENE_ES[sid] : nameEn; }, configurable:true});
+    R.list.forEach((r,i)=>{
+      const x = RETO_I18N[sid+'-'+i] || {}, en = {t:r.t, d:r.d, hint:r.hint, ans:r.ans, why:r.why};
+      const es = x.es || [en.t,en.d,en.hint,en.ans];
+      const whys = x.whys || {};
+      const genWhy = x.why || [en.why, null];
+      ['t','d','hint','ans'].forEach((k,j)=>Object.defineProperty(r, k, {get(){ return ES() ? es[j] : en[k]; }, configurable:true}));
+      r.whyFor = (layers) => {
+        const L = ES()?1:0;
+        const parts = (layers||[]).filter(k=>whys[k]).map(k=>whys[k][L]);
+        if(parts.length) return parts.join(' ');
+        const keys = Object.keys(whys);
+        if(genWhy[L]) return genWhy[L];
+        return keys.length ? whys[keys[0]][L] : en.why;
+      };
+    });
+  }
+}
+
 const stage = $('stage'), app = $('app');
 function showErr(e){ const d=document.createElement('div'); d.style.cssText='position:absolute;left:16px;right:16px;bottom:16px;background:#3a0d0d;color:#fff;font:12px/1.4 monospace;padding:10px;border-radius:6px;white-space:pre-wrap;z-index:9'; d.textContent='3D error: '+(e&&e.message||e); stage.appendChild(d); }
 window.addEventListener('error', ev=>showErr(ev.error||ev.message));
@@ -463,6 +752,16 @@ const LAYERS = {
   animals:    Ly('ANIMALS','camels: 9','0',['10','YEARS LATER',10*YEAR,2.6],'LIFE'),
 };
 const GROUP_ORDER = ['PHYSICS','PLANET','DESERT','CITY','LIFE'];
+for(const k of Object.keys(LAYERS)){
+  const L=LAYERS[k], en={name:L.name,on:L.on,off:L.off,jump:L.jump,jump2:L.jump2}, es=LAYER_ES[k];
+  ['name','on','off','jump','jump2'].forEach(p=>delete L[p]);
+  const pick=(j,p)=> ES()&&es ? es[j] : en[p];
+  Object.defineProperty(L,'name',{get(){ return pick(0,'name'); }});
+  Object.defineProperty(L,'on',{get(){ return pick(1,'on'); }});
+  Object.defineProperty(L,'off',{get(){ return pick(2,'off'); }});
+  Object.defineProperty(L,'jump',{get(){ if(!en.jump) return null; return ES()&&es&&es[3] ? [es[3][0],es[3][1],en.jump[2],en.jump[3]] : en.jump; }});
+  Object.defineProperty(L,'jump2',{get(){ if(!en.jump2) return undefined; return ES()&&es&&es[4] ? [es[4][0],es[4][1],en.jump2[2],en.jump2[3]] : en.jump2; }});
+}
 const BASE_LAYERS = ['gravity','friction','light','moon'];
 const CITY_UNLOCKS = [['ice','water'],['rotation','color'],['people','electricity'],['heat','clouds'],['air','wind'],['oxygen','time'],['birds','ground'],['concrete','metal'],['em','distance'],[]];
 
@@ -475,7 +774,7 @@ for(const k of KEYS){
   const b = document.createElement('button');
   b.type='button'; b.className='layer'; b.id='layer-'+k; b.setAttribute('aria-pressed','false');
   b.innerHTML = `<span class="ic">${EYE}</span><span class="sw ${k}"></span><span class="name${L.name.length>12?' long':''}">${L.name}</span><span class="val">${L.on}</span>`;
-  b.addEventListener('click', ()=>{ Snd.init(); if(!isUnlocked(k)){ Snd.click(); toast('Complete more challenges to unlock this layer.'); return; } toggle(k); });
+  b.addEventListener('click', ()=>{ Snd.init(); if(!isUnlocked(k)){ Snd.click(); toast(T_('lockedLayer')); return; } toggle(k); });
   L.el=b;
 }
 function buildPanel(){
@@ -483,7 +782,7 @@ function buildPanel(){
   for(const g of GROUP_ORDER){
     const keys = S.layers.filter(k=>LAYERS[k].group===g);
     if(!keys.length) continue;
-    const f=document.createElement('div'); f.className='folder'; f.innerHTML=FOLD+g; list.appendChild(f);
+    const f=document.createElement('div'); f.className='folder'; f.innerHTML=FOLD+(ES()?GROUP_ES[g]:g); list.appendChild(f);
     for(const k of keys) list.appendChild(LAYERS[k].el);
   }
   list.scrollTop = 0;
@@ -554,30 +853,37 @@ const Snd = (()=>{
 let cueTimer; const jumpTimers = {}; const fast = {};
 function showCue(k, deleted){
   const L=LAYERS[k];
-  cueName.textContent=L.name; cueVal.textContent = deleted ? L.off : 'RESTORED';
+  cueName.textContent=L.name; cueVal.textContent = deleted ? L.off : T_('restored');
   cueName.parentNode.style.fontSize = L.name.length>12 ? '0.62em' : '';
   cue.className='cue'; void cue.offsetWidth;
   cue.className = 'cue show ' + (deleted?'struck':'restored');
   clearTimeout(cueTimer); cueTimer=setTimeout(()=>cue.classList.remove('show'), deleted?2400:1200);
 }
-const seaTarget = () => (!state.water || !state.oxygen || env.marsT>0) ? -45 : (!state.ice ? 30 : 0);
+let iceP = 1;
+const customTime = () => (mode==='play' && !active && timeSel>0) ? TIME_OPTS[timeSel] : null;
+const seaTarget = () => (!state.water || !state.oxygen || env.marsT>=0.99) ? -45 : (!state.ice ? 30*iceP : 0);
 const pedsFall = () => { for(const o of objs) if(o.ped) o.fallen=true; };
+/* each effect gets p = how far the process has gone (1 = complete). Auto mode always uses 1. */
 const FX = {
-  light(){ env.snowT=1; env.tempT=-17; }, people(){ env.ovT=1; }, water(){ env.dryT=1; },
-  air(){ env.boilT=1; pedsFall(); }, heat(){ env.liqT=1; }, clouds(){ env.droughtT=1; }, wind(){ env.smogT=1; },
-  birds(){ env.bugsT=1; }, oxygen(){ pedsFall(); },
-  sun(){ env.sunDark=1; env.darkT=1; },
-  magnetism(){ env.marsT=1; env.airT=Math.max(env.airT,.6); env.seaT=seaTarget(); },
-  plants(){ for(const o of objs) if(o.kind==='animal') o.fallen=true; },
-  animals(){ env.growT=1.7; },
+  light(p){ env.snowT=p; env.tempT=15-32*p; }, people(p){ env.ovT=p; }, water(p){ env.dryT=p; },
+  air(p){ if(p>=1){ env.boilT=1; pedsFall(); } }, heat(p){ if(p>=1) env.liqT=1; }, clouds(p){ env.droughtT=p; }, wind(p){ env.smogT=p; },
+  birds(p){ env.bugsT=p; }, oxygen(p){ if(p>=1) pedsFall(); },
+  ice(p){ iceP=p; env.seaT=seaTarget(); },
+  sun(p){ if(p>=1){ env.sunDark=1; env.darkT=1; } },
+  magnetism(p){ env.marsT=p; env.airT=Math.max(env.airT,.6*p); env.seaT=seaTarget(); },
+  plants(p){ if(p>=1) for(const o of objs) if(o.kind==='animal') o.fallen=true; },
+  animals(p){ env.growT=1+.7*p; },
 };
-const FX2 = { sun(){ env.snowT=1; env.tempT=-40; env.freezeT=1; } };
+const FX2 = { sun(p){ env.snowT=p; env.tempT=15-55*p; env.freezeT=p>=1?1:p*.8; } };
 function startJump(k, second){
   const L=LAYERS[k], J = second ? L.jump2 : L.jump;
-  const [num,unit,secs,dur]=J;
+  let [num,unit,secs,dur]=J, p=1;
+  const C = (!second && k!=='time') ? customTime() : null;
+  if(C){ num=C[1]; unit=ES()?C[3]:C[2]; p=Math.min(1, C[0]/Math.max(1,J[2])); secs=C[0]; dur=Math.max(dur,1.8); }
   jumpNum.textContent=num; jumpUnit.textContent=unit; jumpEl.classList.add('show');
   jumping = {k, secs, dur, left:dur, second:!!second}; fast[k] = dur; Snd.jump();
-  const fx = second ? FX2[k] : FX[k]; if(fx) fx();
+  const fx = second ? FX2[k] : FX[k]; if(fx) fx(p);
+  if(C){ if(k==='sun' && p>=1) FX2.sun(Math.min(1, C[0]/(7*86400))); return; }
   if(!second && L.jump2) jumpTimers[k+'2']=setTimeout(()=>{ if(!state[k] && state.time) startJump(k,true); }, dur*1000+500);
 }
 function fling(){
@@ -590,6 +896,7 @@ function setRow(k){ const L=LAYERS[k], del=!state[k]; L.el.classList.toggle('off
 function toggle(k){
   state[k] = !state[k];
   const del = !state[k], L=LAYERS[k];
+  if(k==='ice' && del) iceP = customTime() ? 0 : 1;
   if(del && firstDel===null) firstDel = performance.now()/1000;
   setRow(k);
   showCue(k, del);
@@ -617,7 +924,7 @@ function toggle(k){
 }
 function doReset(){
   for(const k of KEYS){ state[k]=true; setRow(k); }
-  Object.assign(env, ENV0);
+  Object.assign(env, ENV0); iceP = 1;
   jumping=null; jumpEl.classList.remove('show'); cue.classList.remove('show');
   for(const k in jumpTimers) clearTimeout(jumpTimers[k]); for(const k in fast) delete fast[k];
   firstDel = null;
@@ -647,7 +954,7 @@ function renderLocks(){
     const L=LAYERS[k], un=isUnlocked(k);
     L.el.classList.toggle('locked', !un);
     L.el.querySelector('.ic').innerHTML = un ? EYE : LOCK;
-    L.el.querySelector('.val').textContent = un ? (state[k]?L.on:L.off) : `CHALLENGE ${firstReto[k]||'?'}`;
+    L.el.querySelector('.val').textContent = un ? (state[k]?L.on:L.off) : T_('challengeN', firstReto[k]||'?');
   }
 }
 
@@ -1301,7 +1608,7 @@ function loadScene(id){
   SCENES[id]();
   trackBuffers = false; sceneId = id;
   buildPanel();
-  $('meta').textContent = `${S.meta} · ${objs.length} OBJ`;
+  $('meta').textContent = `${META[S.id][ES()?1:0]} · ${objs.length} OBJ`;
   renderLocks();
   resetWorld();
 }
@@ -1508,6 +1815,7 @@ const RETOS = {
      why:'The final apocalypse: no light, no monuments and nothing under your feet. Without the ground, everything simply falls.'},
   ]},
 };
+applyRetoI18n(RETOS);
 const SCENE_ORDER = ['city','paris','desert'];
 let active = null, won = false, failed = false, mode = 'menu', guide = false;
 const goal=$('goal'), sheet=$('sheet'), win=$('win'), hintPop=$('hintPop'), infoModal=$('infoModal');
@@ -1519,9 +1827,9 @@ const sceneOpen = sid => !RETOS[sid].need || doneCount(RETOS[sid].after) >= RETO
 const retoOpen = (sid,i) => sceneOpen(sid) && (i===0 || !!best[sid+'-'+(i-1)] || !!best[sid+'-'+i]);
 const ruleText = r => {
   const p=[];
-  if(r.no) p.push('You can’t delete ' + r.no.map(k=>LAYERS[k].name).join(', '));
-  if(r.max) p.push(`Max ${r.max} ${r.max===1?'layer':'layers'}`);
-  if(r.limit) p.push(`You have ${r.limit} seconds from your first deletion`);
+  if(r.no) p.push(T_('cantDelete', r.no.map(k=>LAYERS[k].name).join(', ')));
+  if(r.max) p.push(T_('maxN', r.max));
+  if(r.limit) p.push(T_('limitN', r.limit));
   return p.length ? ' ' + p.join('. ') + '.' : '';
 };
 function renderList(){
@@ -1530,18 +1838,18 @@ function renderList(){
   for(const sid of SCENE_ORDER){
     const R=RETOS[sid]; max += R.list.length*3;
     const h=document.createElement('div'); h.className='scene-h'; h.innerHTML=`${R.name}<span>${doneCount(sid)}/${R.list.length}</span>`; L.appendChild(h);
-    if(!sceneOpen(sid)){ const p=document.createElement('div'); p.className='scene-lock'; p.textContent=`Complete ${R.need} challenges in ${RETOS[R.after].name} to unlock ${R.name}.`; L.appendChild(p); continue; }
+    if(!sceneOpen(sid)){ const p=document.createElement('div'); p.className='scene-lock'; p.textContent=T_('lockedScene', R.need, RETOS[R.after].name, R.name); L.appendChild(p); continue; }
     R.list.forEach((r,i)=>{
       const s=best[sid+'-'+i]||0; total+=s;
       const open = retoOpen(sid,i);
       const row=document.createElement('div'); row.className='reto'+(s?' done':'')+(open?'':' locked');
-      const tag = r.limit ? `<span class="tag">${r.limit} S</span>` : (r.max ? `<span class="tag">MAX ${r.max}</span>` : '');
+      const tag = r.limit ? `<span class="tag">${r.limit} S</span>` : (r.max ? `<span class="tag">${ES()?'MÁX':'MAX'} ${r.max}</span>` : '');
       const go=document.createElement('button'); go.type='button'; go.className='reto-go'; go.disabled=!open;
       go.innerHTML=`<span class="n">${i+1}</span><span><div class="tt">${r.t}${tag}</div><div class="dd">${r.d}${ruleText(r)}</div></span>`;
       if(open) go.addEventListener('click',()=>{ Snd.ui(); startReto(sid,i); });
       const side=document.createElement('span'); side.className='side';
-      if(s){ const ib=document.createElement('button'); ib.type='button'; ib.className='why-i'; ib.textContent='i'; ib.setAttribute('aria-label','Why it happens'); ib.addEventListener('click',()=>openWhy(sid,i)); side.appendChild(ib); }
-      const st=document.createElement('span'); st.className='st'; st.innerHTML = open?starsHTML(s):'LOCKED'; side.appendChild(st);
+      if(s){ const ib=document.createElement('button'); ib.type='button'; ib.className='why-i'; ib.textContent='i'; ib.setAttribute('aria-label',T_('whyAria')); ib.addEventListener('click',()=>openWhy(sid,i)); side.appendChild(ib); }
+      const st=document.createElement('span'); st.className='st'; st.innerHTML = open?starsHTML(s):T_('locked'); side.appendChild(st);
       row.appendChild(go); row.appendChild(side); L.appendChild(row);
     });
   }
@@ -1551,7 +1859,7 @@ function showGoal(sid,i){
   const r=RETOS[sid].list[i];
   $('goalNum').textContent=`${RETOS[sid].name.toUpperCase()} · ${i+1}/${RETOS[sid].list.length}`;
   $('goalTitle').textContent=r.t; $('goalDesc').textContent=r.d + ruleText(r);
-  $('goalLayers').textContent='0 layers'; $('goalWarn').hidden=true; goal.classList.remove('done','fail');
+  $('goalLayers').textContent=T_('layersN',0); $('goalWarn').hidden=true; goal.classList.remove('done','fail');
   goal.hidden=false;
 }
 function enterGame(m='play'){
@@ -1578,20 +1886,24 @@ function winReto(){
   const n=deletedCount(), s = n<=r.par?3:(n===r.par+1?2:1);
   const before = new Set(UNLOCKED), openBefore = SCENE_ORDER.map(sceneOpen);
   best[sid+'-'+i]=Math.max(best[sid+'-'+i]||0, s); saveBest();
+  solved[sid+'-'+i]=S.layers.filter(k=>!state[k]); saveSolved();
   renderLocks();
   const newLayers = [...UNLOCKED].filter(k=>!before.has(k));
   const unl = [];
-  if(newLayers.length) unl.push('New layers: ' + newLayers.map(k=>LAYERS[k].name).join(' · '));
-  SCENE_ORDER.forEach((w,j)=>{ if(!openBefore[j] && sceneOpen(w)) unl.push(`New world unlocked: ${RETOS[w].name.toUpperCase()}`); });
+  if(newLayers.length) unl.push(T_('newLayers') + newLayers.map(k=>LAYERS[k].name).join(' · '));
+  SCENE_ORDER.forEach((w,j)=>{ if(!openBefore[j] && sceneOpen(w)) unl.push(T_('newWorld', RETOS[w].name.toUpperCase())); });
   const j = SCENE_ORDER.indexOf(sid), nw = SCENE_ORDER[j+1];
   const nextI = i+1 < RETOS[sid].list.length ? [sid,i+1] : (nw && sceneOpen(nw) ? [nw,0] : null);
   goal.classList.add('done');
   for(const k of newLayers){ const el=LAYERS[k].el; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
-  setTimeout(()=>{ if(mode!=='play') return; showWin({title:r.t, stars:s, desc:`With ${n} ${n===1?'layer':'layers'} deleted` + (s<3?` · Can be done with ${r.par}`:''),
-    unlock:unl.join('\n'), nextLabel: nextI ? (nextI[0]!==sid ? `Go to ${RETOS[nextI[0]].name}` : 'Next challenge') : 'See all challenges',
+  setTimeout(()=>{ if(mode!=='play') return; showWin({title:r.t, stars:s, desc:T_('withN',n) + (s<3?T_('canPar',r.par):''),
+    unlock:unl.join('\n'), nextLabel: nextI ? (nextI[0]!==sid ? T_('goTo',RETOS[nextI[0]].name) : T_('next')) : T_('seeAll'),
     next: nextI ? nextI.join(':') : '', why:`${sid}:${i}`}); Snd.win(); }, 700);
 }
-function openWhy(sid,i){ const r=RETOS[sid].list[+i]; $('infoTitle').textContent=r.t; $('infoText').textContent=r.why; infoModal.hidden=false; Snd.ui(); }
+let solved = {};
+try{ solved = JSON.parse(localStorage.getItem('dtw-solved')||'{}')||{}; }catch(_){}
+const saveSolved = ()=>{ try{ localStorage.setItem('dtw-solved', JSON.stringify(solved)); }catch(_){} };
+function openWhy(sid,i){ const r=RETOS[sid].list[+i]; $('infoTitle').textContent=r.t; $('infoText').textContent=r.whyFor(solved[sid+'-'+(+i)]); infoModal.hidden=false; Snd.ui(); }
 $('infoClose').addEventListener('click',()=>{ infoModal.hidden=true; });
 infoModal.addEventListener('click',e=>{ if(e.target===infoModal) infoModal.hidden=true; });
 $('whyBtn').addEventListener('click',()=>{ const [sid,i]=($('whyBtn').dataset.why||'').split(':'); if(sid) openWhy(sid,i); });
@@ -1605,17 +1917,17 @@ $('homeBtn').addEventListener('click',()=>{ Snd.ui(); showMenu(); });
 function checkReto(){
   if(!active || mode!=='play') return;
   const r=RETOS[active.sid].list[active.i];
-  const n=deletedCount(); $('goalLayers').textContent = `${n} ${n===1?'layer':'layers'}`;
+  const n=deletedCount(); $('goalLayers').textContent = T_('layersN', n);
   if(won || failed) return;
   const warn=$('goalWarn');
   const bad = (r.no||[]).filter(k=>!state[k]);
   let msg = '';
-  if(bad.length) msg = 'You can’t delete ' + bad.map(k=>LAYERS[k].name).join(', ') + '. Restore it to continue.';
-  else if(r.max && n>r.max) msg = `Max ${r.max} ${r.max===1?'layer':'layers'}. Restore one.`;
+  if(bad.length) msg = T_('warnBad', bad.map(k=>LAYERS[k].name).join(', '));
+  else if(r.max && n>r.max) msg = T_('warnMax', r.max);
   if(r.limit && firstDel!==null){
     const left = r.limit - (performance.now()/1000 - firstDel);
-    if(left < 0){ failed=true; goal.classList.add('fail'); warn.classList.remove('tip'); warn.textContent='Time’s up. Tap reset to try again.'; warn.hidden=false; return; }
-    if(!msg) msg = `${left.toFixed(1)} s left`;
+    if(left < 0){ failed=true; goal.classList.add('fail'); warn.classList.remove('tip'); warn.textContent=T_('timeUp'); warn.hidden=false; return; }
+    if(!msg) msg = T_('left', left.toFixed(1));
   }
   if(!(guide && !msg)){ warn.classList.remove('tip'); warn.textContent = msg; warn.hidden = !msg; }
   if(bad.length || (r.max && n>r.max)) return;
@@ -1627,23 +1939,23 @@ function setGuide(on){
   guide = on;
   LAYERS.gravity.el.classList.toggle('hintme', on);
   const w=$('goalWarn');
-  if(on){ w.classList.add('tip'); w.textContent='Tap GRAVITY in the panel below.'; w.hidden=false; }
+  if(on){ w.classList.add('tip'); w.textContent=T_('guide1'); w.hidden=false; }
 }
 onToggle = (k, del)=>{
   if(!guide) return;
   LAYERS.gravity.el.classList.remove('hintme');
-  if(k==='gravity' && del){ const w=$('goalWarn'); w.classList.add('tip'); w.textContent='Nice! Now watch the boats in the bay…'; w.hidden=false; }
+  if(k==='gravity' && del){ const w=$('goalWarn'); w.classList.add('tip'); w.textContent=T_('guide2'); w.hidden=false; }
 };
 
 /* ---------- hints ---------- */
 function openHint(a){
   const r = a ? RETOS[a.sid].list[a.i] : null;
-  $('hintK').textContent = r ? 'HINT' : 'FREE MODE';
-  $('hintText').textContent = r ? r.hint : 'Tap any layer to delete it and tap it again to restore it. Open the challenge list (☰) to play with goals and hints.';
+  $('hintK').textContent = r ? T_('hintK') : T_('freeK');
+  $('hintText').textContent = r ? r.hint : T_('freeHint');
   $('hintAns').hidden = !r; $('ansText').hidden = true; $('ansText').textContent = r ? r.ans : '';
   hintPop.hidden = false;
 }
-$('hintBtn').addEventListener('click',()=>{ Snd.init(); Snd.ui(); if(!hintPop.hidden){ hintPop.hidden=true; return; } openHint(active); });
+$('hintBtn').addEventListener('click',()=>{ Snd.init(); Snd.ui(); $('timePop').hidden=true; if(!hintPop.hidden){ hintPop.hidden=true; return; } openHint(active); });
 $('hintAns').addEventListener('click',()=>{ $('ansText').hidden=false; $('hintAns').hidden=true; });
 
 /* ---------- home screen ---------- */
@@ -1658,19 +1970,19 @@ const saveWorld = () => { try{ localStorage.setItem('dtw-world', String(wIdx)); 
 function renderMenu(){
   const sid = SCENE_ORDER[wIdx], R = RETOS[sid], open = sceneOpen(sid), card = $('wCard');
   $('wIcon').innerHTML = WORLD_ICONS[sid];
-  $('wNum').textContent = `WORLD ${wIdx+1}`; $('wTitle').textContent = R.name;
-  $('wLayers').textContent = `${sid==='desert'?28:22} layers · ${R.list.length} challenges`;
-  $('wStars').innerHTML = `${starCount(sid)}/${R.list.length*3} ★<small>${doneCount(sid)}/${R.list.length} done</small>`;
+  $('wNum').textContent = T_('world', wIdx+1); $('wTitle').textContent = R.name;
+  $('wLayers').textContent = T_('wLayers', sid==='desert'?28:22, R.list.length);
+  $('wStars').innerHTML = `${starCount(sid)}/${R.list.length*3} ★<small>${T_('done', doneCount(sid), R.list.length)}</small>`;
   card.classList.toggle('locked', !open);
-  $('wLockTxt').textContent = open ? '' : `Complete ${R.need} challenges in ${RETOS[R.after].name} to unlock`;
+  $('wLockTxt').textContent = open ? '' : T_('wLock', R.need, RETOS[R.after].name);
   $('wPrev').disabled = wIdx===0; $('wNext').disabled = wIdx===SCENE_ORDER.length-1;
   $('wDots').innerHTML = SCENE_ORDER.map((_,j)=>`<i class="${j===wIdx?'on':''}"></i>`).join('');
   const d = doneCount(sid);
-  $('playBtn').textContent = !open ? 'Locked' : (d===0 ? 'Play challenges' : (d<R.list.length ? 'Continue challenges' : 'See challenges'));
+  $('playBtn').textContent = !open ? T_('lockedBtn') : (d===0 ? T_('play') : (d<R.list.length ? T_('cont') : T_('see')));
   $('playBtn').disabled = !open; $('freeBtn').disabled = !open;
-  $('menuSnd').textContent = 'Sound: ' + (Snd.isMuted() ? 'off' : 'on');
+  $('menuSnd').textContent = Snd.isMuted() ? T_('sndOff') : T_('sndOn'); $('langBtn').textContent = T_('langBtn');
 }
-function syncMute(){ $('muteBtn').classList.toggle('muted', Snd.isMuted()); $('muteBtn').setAttribute('aria-label', Snd.isMuted()?'Turn sound on':'Mute'); }
+function syncMute(){ $('muteBtn').classList.toggle('muted', Snd.isMuted()); $('muteBtn').setAttribute('aria-label', Snd.isMuted()?T_('unmute'):T_('mute')); }
 function showMenu(){
   if(Rec.on) Rec.stop();
   if(Tut.on) Tut.close(true);
@@ -1698,43 +2010,67 @@ let DL = null;
 try{ if(window.claude && window.claude.use) window.claude.use('downloads').then(d=>{ DL=d; }).catch(()=>{}); }catch(_){}
 const Rec = (()=>{
   let mr=null, chunks=[], rc=null, rx=null, t0=0, blob=null, url=null, mime='';
+  const failed = new Set();
+  try{ JSON.parse(localStorage.getItem('dtw-badmime')||'[]').forEach(m=>failed.add(m)); }catch(_){}
+  const markBad = m => { if(!m) return; failed.add(m); try{ localStorage.setItem('dtw-badmime', JSON.stringify([...failed])); }catch(_){} };
   const btn=$('recBtn'), lbl=$('recLbl');
   const supported = () => !!(window.MediaRecorder && HTMLCanvasElement.prototype.captureStream);
-  function pickMime(){ const c=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm']; for(const m of c){ try{ if(MediaRecorder.isTypeSupported(m)) return m; }catch(_){} } return ''; }
+  function pickMime(){ const c=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp8,opus','video/webm;codecs=vp9,opus','video/webm'];
+    for(const m of c){ if(failed.has(m)) continue; try{ if(MediaRecorder.isTypeSupported(m)) return m; }catch(_){} } return ''; }
   function start(){
-    if(!supported()){ toast('Recording isn’t supported in this browser. Use your phone’s screen recorder instead.', 4500); return; }
+    if(!supported()){ toast(T_('recUnsupported'), 4500); return; }
     Snd.init();
     rc=document.createElement('canvas'); rc.width=720; rc.height=1280; rx=rc.getContext('2d');
     draw();
     let stream;
-    try{ stream = rc.captureStream(30); }catch(e){ toast('Recording isn’t available here. Use your phone’s screen recorder instead.', 4500); return; }
+    try{ stream = rc.captureStream(30); }catch(e){ toast(T_('recUnsupported'), 4500); return; }
     const as=Snd.stream(); if(as){ const tr=as.getAudioTracks()[0]; if(tr) stream.addTrack(tr); }
-    mime=pickMime();
-    try{ mr=new MediaRecorder(stream, mime?{mimeType:mime, videoBitsPerSecond:6e6}:{videoBitsPerSecond:6e6}); }catch(e){ mr=null; toast('Could not start recording.'); return; }
-    chunks=[]; mr.ondataavailable=e=>{ if(e.data && e.data.size) chunks.push(e.data); };
-    mr.onstop=finish; mr.start(500); t0=performance.now(); btn.classList.add('on'); lbl.textContent='0:00';
+    let used='';
+    for(let k=0;k<6;k++){
+      used=pickMime();
+      try{ mr=new MediaRecorder(stream, used?{mimeType:used, videoBitsPerSecond:6e6}:{videoBitsPerSecond:6e6}); mr.start(500); break; }
+      catch(e){ mr=null; if(used) markBad(used); else break; }
+    }
+    if(!mr){ toast(T_('recFail'), 4500); return; }
+    mime=used; chunks=[];
+    mr.ondataavailable=e=>{ if(e.data && e.data.size) chunks.push(e.data); };
+    mr.onerror=()=>markBad(used);
+    mr.onstop=()=>finish(used);
+    t0=performance.now(); btn.classList.add('on'); lbl.textContent='0:00';
   }
-  function stop(){ if(mr && mr.state!=='inactive') mr.stop(); btn.classList.remove('on'); lbl.textContent='REC'; }
-  function finish(){
-    const type = (mr && mr.mimeType) || mime || 'video/webm'; mr=null;
-    if(!chunks.length){ toast('The clip was empty. Try recording for a few seconds.'); return; }
+  function stop(){ if(mr && mr.state!=='inactive'){ try{ mr.requestData(); }catch(_){} mr.stop(); } btn.classList.remove('on'); lbl.textContent='REC'; }
+  function finish(used){
+    const type = (mr && mr.mimeType) || used || 'video/webm'; mr=null;
+    const size = chunks.reduce((s,c)=>s+c.size,0);
+    if(!chunks.length || size < 4000){ markBad(used); toast(T_('recEmpty'), 5000); return; }
     blob=new Blob(chunks,{type}); if(url) URL.revokeObjectURL(url); url=URL.createObjectURL(blob);
     const v=$('recVideo'); v.src=url; $('recNote').textContent=''; $('recModal').hidden=false; v.play().catch(()=>{});
+    const f=fileOf(); $('recShare').hidden = !(f && navigator.share && navigator.canShare && safeCanShare(f));
   }
-  const ext = () => /mp4/.test(blob.type)?'mp4':'webm';
+  const baseType = () => (blob && blob.type || 'video/webm').split(';')[0];
+  const ext = () => /mp4/.test(baseType())?'mp4':'webm';
+  const fname = () => `delete-the-world-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.${ext()}`;
+  function fileOf(){ try{ return new File([blob], fname(), {type:baseType()}); }catch(_){ return null; } }
+  function safeCanShare(f){ try{ return navigator.canShare({files:[f]}); }catch(_){ return false; } }
+  async function share(){
+    if(!blob) return;
+    const f=fileOf(), note=$('recNote');
+    if(!f || !navigator.share){ return save(); }
+    try{ await navigator.share({files:[f], title:'Delete the World'}); note.textContent=T_('shared'); }
+    catch(e){ if(e && e.name==='AbortError') return; return save(); }
+  }
   async function save(){
     if(!blob) return;
-    const name=`delete-the-world-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.${ext()}`;
-    const note=$('recNote');
+    const name=fname(), note=$('recNote');
     if(DL){
-      try{ await DL.save({filename:name, data:blob}); note.textContent='Saved. Find it in your downloads.'; return; }
+      try{ await DL.save({filename:name, data:blob}); note.textContent=T_('saved'); return; }
       catch(e){ const c=e&&e.code;
-        if(c==='declined'){ note.textContent='Not saved. Tap Save video to try again.'; return; }
-        if(c==='rate_limited'){ note.textContent='Another save is already open. Try again in a moment.'; return; }
-        if(c==='too_large'){ note.textContent='This clip is too long to save here. Record a shorter one.'; return; } }
+        if(c==='declined'){ note.textContent=T_('notSaved'); return; }
+        if(c==='rate_limited'){ note.textContent=T_('busy'); return; }
+        if(c==='too_large'){ note.textContent=T_('tooLong'); return; } }
     }
-    try{ const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); }catch(_){}
-    note.textContent='If the download didn’t start, long-press the video to save it, or use your phone’s screen recorder.';
+    try{ const a=document.createElement('a'); a.href=url; a.download=name; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove(); }catch(_){}
+    note.textContent=T_('dlHint');
   }
   function discard(){ $('recModal').hidden=true; const v=$('recVideo'); v.pause(); v.removeAttribute('src'); if(url){ URL.revokeObjectURL(url); url=null; } blob=null; }
   function rr(x,y,w,h,r){ rx.beginPath(); rx.moveTo(x+r,y); rx.arcTo(x+w,y,x+w,y+h,r); rx.arcTo(x+w,y+h,x,y+h,r); rx.arcTo(x,y+h,x,y,r); rx.arcTo(x,y,x+w,y,r); rx.closePath(); }
@@ -1746,7 +2082,7 @@ const Rec = (()=>{
     rx.textAlign='center'; rx.textBaseline='middle';
     if(active && !goal.hidden){
       rx.shadowColor='rgba(0,0,0,.6)'; rx.shadowBlur=14;
-      rx.fillStyle='#ffd60a'; rx.font='700 22px "JetBrains Mono", monospace'; rx.fillText(RETOS[active.sid].name.toUpperCase()+' · CHALLENGE', W/2, 92);
+      rx.fillStyle='#ffd60a'; rx.font='700 22px "JetBrains Mono", monospace'; rx.fillText(RETOS[active.sid].name.toUpperCase()+' · '+T_('recTitle'), W/2, 92);
       rx.fillStyle='#fff'; rx.font='900 46px Archivo, "Arial Black", sans-serif'; rx.fillText($('goalTitle').textContent.toUpperCase(), W/2, 140);
       rx.shadowBlur=0;
     }
@@ -1777,12 +2113,13 @@ const Rec = (()=>{
   function capture(){
     if(!mr) return; draw();
     const s=(performance.now()-t0)/1000; lbl.textContent=`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-    if(s>60){ stop(); toast('Clips stop automatically after 60 seconds.'); }
+    if(s>60){ stop(); toast(T_('recMax')); }
   }
-  return {start, stop, capture, save, discard, get on(){ return !!mr; }};
+  return {start, stop, capture, save, share, discard, get on(){ return !!mr; }};
 })();
 $('recBtn').addEventListener('click',()=>{ if(Tut.on) return; Rec.on ? Rec.stop() : Rec.start(); });
 $('recSave').addEventListener('click',()=>Rec.save());
+$('recShare').addEventListener('click',()=>Rec.share());
 $('recDiscard').addEventListener('click',()=>Rec.discard());
 
 /* ---------- how to play: scripted walkthrough ---------- */
@@ -1802,33 +2139,35 @@ const Tut = (()=>{
   function recFake(v){ const b=$('recBtn'); b.classList.toggle('on', v); $('recLbl').textContent = v ? '0:00' : 'REC'; fakeRec = v ? 0 : null; }
   function clearUI(){ hintPop.hidden=true; win.hidden=true; infoModal.hidden=true; goal.hidden=true; recFake(false); highlight(null); }
   const STEPS = [
-    {text:'Every row in this panel is a LAYER: a law of nature or a piece of the world.', pos:'mid', dur:5,
+    {text:['Every row in this panel is a LAYER: a law of nature or a piece of the world.','Cada fila de este panel es una CAPA: una ley de la naturaleza o una parte del mundo.'], pos:'mid', dur:5,
      setup(){ doReset(); }, target:()=>list},
-    {text:'Tap a layer to DELETE it. Let’s delete GRAVITY…', pos:'mid', dur:5,
+    {text:['Tap a layer to DELETE it. Let’s delete GRAVITY…','Toca una capa para BORRARLA. Vamos a borrar la GRAVEDAD…'], pos:'mid', dur:5,
      setup(){ doReset(); }, target:()=>row('gravity'), acts:[[1.6,()=>{ tap(); if(state.gravity) toggle('gravity'); }]]},
-    {text:'…and watch what happens. The big card shows how much time has passed.', pos:'top', dur:6,
+    {text:['…and watch what happens. The big card shows how much time has passed.','…y mira lo que pasa. La tarjeta grande indica cuánto tiempo ha pasado.'], pos:'top', dur:6,
      setup(){ if(state.gravity) toggle('gravity'); }, target:()=>null},
-    {text:'Tap it again to RESTORE it. The ⟲ button resets the whole world.', pos:'mid', dur:5.5,
+    {text:['Tap it again to RESTORE it. The ⟲ button resets the whole world.','Tócala otra vez para RESTAURARLA. El botón ⟲ reinicia todo el mundo.'], pos:'mid', dur:5.5,
      setup(){ if(state.gravity) toggle('gravity'); }, target:()=>row('gravity'), acts:[[1.5,()=>{ tap(); if(!state.gravity) toggle('gravity'); }],[3.2,()=>moveTo($('resetBtn'))]]},
-    {text:'CHALLENGES give you a goal. Reach it deleting as FEW layers as possible to earn 3 stars. ☰ opens the list.', pos:'mid', dur:6.5,
+    {text:['CHALLENGES give you a goal. Reach it deleting as FEW layers as possible to earn 3 stars. ☰ opens the list.','Los RETOS te dan un objetivo. Consíguelo borrando las MENOS capas posibles para ganar 3 estrellas. ☰ abre la lista.'], pos:'mid', dur:6.5,
      setup(){ doReset(); showGoal('city',1); }, target:()=>goal, acts:[[3.6,()=>moveTo($('listBtn'))]]},
-    {text:'Stuck? Tap ? for a HINT. Still stuck? Show the answer.', pos:'low', dur:6.5,
+    {text:['Stuck? Tap ? for a HINT. Still stuck? Show the answer.','¿Atascado? Toca ? para ver una PISTA. ¿Sigues atascado? Mira la respuesta.'], pos:'low', dur:6.5,
      setup(){ showGoal('city',1); }, target:()=>$('hintBtn'), acts:[[1.2,()=>{ tap(); openHint({sid:'city',i:1}); }],[2.8,()=>moveTo($('hintAns'))],[3.6,()=>{ tap(); $('ansText').hidden=false; $('hintAns').hidden=true; }]]},
-    {text:'Tap REC to record a vertical clip for Reels and TikTok. Tap it again to stop, then tap SAVE VIDEO to keep it on your phone.', pos:'mid', dur:7.5,
+    {text:['Tap REC to record a vertical clip for Reels and TikTok. Tap it again to stop, then tap SHARE / SAVE to keep it or post it.','Toca REC para grabar un clip vertical para Reels y TikTok. Tócalo otra vez para parar y pulsa COMPARTIR / GUARDAR para quedártelo o publicarlo.'], pos:'mid', dur:7.5,
      setup(){ hintPop.hidden=true; }, target:()=>$('recBtn'), acts:[[1.2,()=>{ tap(); recFake(true); }],[5.4,()=>{ tap(); recFake(false); }]]},
-    {text:'Example: flood the street without deleting WATER. The answer is ICE. Watch: 300 years later…', pos:'mid', dur:7.5,
+    {text:['Example: flood the street without deleting WATER. The answer is ICE. Watch: 300 years later…','Ejemplo: inunda la calle sin borrar el AGUA. La respuesta es el HIELO. Mira: 300 años después…'], pos:'mid', dur:7.5,
      setup(){ doReset(); showGoal('city',1); }, target:()=>row('ice'), acts:[[1.8,()=>{ tap(); if(state.ice) toggle('ice'); }],[2.6,()=>moveTo(null)]]},
-    {text:'Challenge complete! Tap ⓘ WHY? to learn the real science behind it.', pos:'bottom', dur:6.5,
-     setup(){ goal.hidden=true; showWin({title:'Sunken City', stars:3, desc:'With 1 layer deleted', unlock:'New layers: ROTATION · COLOR', nextLabel:'Next challenge', next:'', why:'city:1'}); },
+    {text:['Challenge complete! Tap ⓘ WHY? to learn the real science behind it.','¡Reto superado! Toca ⓘ ¿POR QUÉ? para descubrir la ciencia de verdad que hay detrás.'], pos:'bottom', dur:6.5,
+     setup(){ goal.hidden=true; showWin({title:RETOS.city.list[1].t, stars:3, desc:T_('withN',1), unlock:T_('newLayers')+LAYERS.rotation.name+' · '+LAYERS.color.name, nextLabel:T_('next'), next:'', why:'city:1'}); },
      target:()=>$('whyBtn'), acts:[[1.6,()=>{ tap(); openWhy('city',1); }]]},
-    {text:'Complete challenges to unlock new layers and new WORLDS. Switch worlds with the arrows on the home screen. Have fun deleting the world!', pos:'mid', dur:6,
+    {text:['In FREE MODE, the ⏱ button lets you choose how much time passes after each deletion: one second, one day or a million years.','En el MODO LIBRE, el botón ⏱ te deja elegir cuánto tiempo pasa después de cada borrado: un segundo, un día o un millón de años.'], pos:'mid', dur:6,
+     setup(){ doReset(); }, target:()=>null},
+    {text:['Complete challenges to unlock new layers and new WORLDS. Switch worlds with the arrows on the home screen. Have fun deleting the world!','Supera retos para desbloquear nuevas capas y nuevos MUNDOS. Cambia de mundo con las flechas de la pantalla de inicio. ¡A borrar el mundo!'], pos:'mid', dur:6,
      setup(){ doReset(); }, target:()=>null},
   ];
   function buildBar(){ bar.innerHTML = STEPS.map(()=>'<i><b></b></i>').join(''); }
   function go(n){
     clearUI(); i=n; t=0; fired=new Set();
     const s=STEPS[i];
-    txt.textContent=s.text; num.textContent=`${i+1}/${STEPS.length}`;
+    txt.textContent=s.text[ES()?1:0]; num.textContent=`${i+1}/${STEPS.length}`;
     cap.className='tut-cap '+s.pos;
     s.setup && s.setup();
     finger.style.opacity='0';
@@ -1937,11 +2276,48 @@ const hClock=$('hClock'), hTemp=$('hTemp'), hSea=$('hSea');
 const pad=n=>String(Math.floor(n)).padStart(2,'0');
 function fmtClock(s){
   const y=Math.floor(s/YEAR); s-=y*YEAR; const d=Math.floor(s/86400); s%=86400;
-  return `T+ ${y?(y>=1e5?(y/1e6).toFixed(1)+'M':y)+'y ':''}${(y||d)?d+'d ':''}${pad(s/3600)}:${pad(s%3600/60)}:${pad(s%60)}`;
+  return `T+ ${y?(y>=1e5?(y/1e6).toFixed(1)+'M':y)+T_('yr')+' ':''}${(y||d)?d+'d ':''}${pad(s/3600)}:${pad(s%3600/60)}:${pad(s%60)}`;
 }
 
+/* ---------- free-mode time picker ---------- */
+const tChip=$('timeChip'), tPop=$('timePop');
+function chipLabel(){ const o=TIME_OPTS[timeSel]; $('timeChipLbl').textContent = `${T_('timeK')} · ${(ES()?o[5]:o[4]).toUpperCase()}`; }
+function renderTimeGrid(){
+  const g=$('timeGrid'); g.innerHTML='';
+  TIME_OPTS.forEach((o,i)=>{ const bt=document.createElement('button'); bt.type='button'; bt.textContent=ES()?o[5]:o[4]; if(i===timeSel) bt.className='on';
+    bt.addEventListener('click',()=>{ timeSel=i; try{ localStorage.setItem('dtw-time', String(i)); }catch(_){} renderTimeGrid(); tPop.hidden=true; Snd.ui(); });
+    g.appendChild(bt); });
+  chipLabel();
+}
+tChip.addEventListener('click',()=>{ Snd.init(); Snd.ui(); hintPop.hidden=true; tPop.hidden=!tPop.hidden; });
+let chipShown=null;
+function updateChip(){ const s = mode==='play' && !active; if(s!==chipShown){ chipShown=s; tChip.hidden=!s; if(!s) tPop.hidden=true; } }
+
+/* ---------- language ---------- */
+function applyLang(){
+  document.documentElement.lang = LANG;
+  const set=(sel,txt)=>{ const e=document.querySelector(sel); if(e) e.textContent=txt; };
+  set('#seaLbl',T_('sea')); set('#hintAns',T_('showAns')); set('.sheet-head b',T_('challenges')); set('#sheetClose',T_('close')); set('.sheet-sub',T_('sheetSub'));
+  set('.win-k',T_('winK')); $('whyBtn').innerHTML='<i>i</i>'+T_('why'); set('#winStay',T_('keep'));
+  set('.tab',T_('layers')); set('#toolLbl',T_('eraser')); set('.phint',T_('phint')); set('.kick',T_('kick'));
+  set('#freeBtn',T_('free')); set('#howBtn',T_('how'));
+  set('#infoModal .mk',T_('infoK')); set('#infoClose',T_('gotIt')); set('#recModal .mk',T_('recK'));
+  set('#recShare',T_('share')); set('#recSave',T_('download')); set('#recDiscard',T_('discard'));
+  set('#tutK',T_('tutK')); set('#tutClose',T_('tutClose')); set('#timeK',T_('timeK')); set('#timeSub',T_('timeSub')); set('#langK',T_('langK'));
+  for(const k of KEYS){ const L=LAYERS[k], n=L.el.querySelector('.name'); n.textContent=L.name; n.classList.toggle('long', L.name.length>12); }
+  if(S){ buildPanel(); $('meta').textContent=`${META[S.id][ES()?1:0]} · ${objs.length} OBJ`; }
+  renderLocks(); renderMenu(); syncMute(); renderTimeGrid();
+  document.querySelectorAll('#langModal [data-lang]').forEach(bt=>bt.classList.toggle('on', bt.dataset.lang===LANG));
+}
+$('langBtn').addEventListener('click',()=>{ Snd.init(); Snd.ui(); applyLang(); $('langModal').hidden=false; });
+document.querySelectorAll('#langModal [data-lang]').forEach(bt=>bt.addEventListener('click',()=>{
+  LANG = bt.dataset.lang; try{ localStorage.setItem('dtw-lang', LANG); }catch(_){}
+  applyLang(); $('langModal').hidden=true; Snd.ui();
+}));
+$('langModal').addEventListener('click',e=>{ if(e.target.id==='langModal') e.target.hidden=true; });
+
 loadScene(SCENE_ORDER[0]);
-renderMenu(); syncMute();
+renderMenu(); syncMute(); applyLang();
 
 let last=performance.now(), t=0, ts=0;
 function frame(now){
@@ -2127,16 +2503,18 @@ function frame(now){
     gl.disable(gl.BLEND); gl.depthMask(true);
   }
 
+  updateChip();
   Rec.capture();
   Tut.tick(rdt);
   Snd.update(mode, airE, frozen, state.wind, env.gulls);
   hClock.textContent=fmtClock(env.clock);
   hTemp.textContent=`${Math.round(env.temp + (-273-env.temp)*env.cold)} °C`;
   const sea=WL-W0;
-  hSea.textContent=dissolved||!state.ground ? '—' : (WL <= FLOOR+.3 ? 'DRY' : `${sea>=0?'+':'−'}${Math.abs(sea).toFixed(2)} m`);
+  hSea.textContent=dissolved||!state.ground ? '—' : (WL <= FLOOR+.3 ? T_('dry') : `${sea>=0?'+':'−'}${Math.abs(sea).toFixed(2)} m`);
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 })();
 </script>
+
 <script>if('serviceWorker' in navigator && location.protocol==='https:'){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}</script></body></html>
